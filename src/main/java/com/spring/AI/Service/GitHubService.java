@@ -7,6 +7,8 @@ import com.azure.ai.inference.models.ChatCompletionsOptions;
 import com.azure.ai.inference.models.ChatRequestMessage;
 import com.azure.ai.inference.models.ChatRequestUserMessage;
 import com.azure.core.credential.AzureKeyCredential;
+import com.azure.core.http.rest.RequestOptions;
+import com.azure.core.util.BinaryData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,11 +54,13 @@ public class GitHubService {
     public String getResponse(String prompt){
         System.out.println("In GitHub Free Version Method:: "+ prompt);
         build();
+        BinaryData binaryData = BinaryData.fromString(prompt);
         ChatCompletionsOptions chatCompletionsOptions = new ChatCompletionsOptions(Arrays.asList(
-                new ChatRequestUserMessage(prompt)
+                new ChatRequestUserMessage(binaryData)
         ));
         chatCompletionsOptions.setTemperature(0.5d);
         chatCompletionsOptions.setModel(MODEL);
+
         ChatCompletions completions = client.complete(chatCompletionsOptions);
         return  completions.getChoice().getMessage().getContent();
     }

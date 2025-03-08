@@ -10,6 +10,7 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.retry.NonTransientAiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +59,7 @@ public class GenAIContoller {
     }
 
 
-    @GetMapping("/getRecipe")
+    @GetMapping(value = "/getRecipe", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getRecipeResponse(@RequestParam(required = true) String ingredients,
                                     @RequestParam(defaultValue = "any", required = false) String cuisine,
                                     @RequestParam(defaultValue = "No dietary Restrictions", required = false) String dietaryRestrictions,
